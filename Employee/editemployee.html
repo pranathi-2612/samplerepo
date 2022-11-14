@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../bootstrap-5.2.2-dist\css\bootstrap.css">
+        <script src="../js\jquery-3.6.1.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col-sm-6 border m-5 border-success p-lg-5">
+                <h2 class="text-success text-center">EDIT EMPLOYEE</h2>        
+               <label class="text-success">Name</label><input type="text" class="form-control" id="Name" name="Name">
+               <label>Age</label> <input type="text" class="form-control" id="Age" name="Age">
+               <label>City</label> <input type="text" class="form-control" id="City" name="City">
+               <label>Salary</label> <input type="text" class="form-control" id="Salary" name="Salary">
+               <div class="text-center">
+               <input type="submit" class="btn btn-danger mt-5" id="button" name="sub" value="UPDATE">
+            </div>
+               <div class="pt-2">
+                <a href="emplist.html" class="btn btn-warning">View Employee List</a>
+              </div> 
+            </div> 
+        </div>
+        <script>
+            $(document).ready(function () {
+            
+                const urlparams = new URLSearchParams(window.location.search);
+                var id = urlparams.get("id");
+                $('#button').click(function()
+                {
+                    var Name=$('#Name').val();
+                    var Age=$('#Age').val();
+                    var City=$('#City').val();
+                    var Salary=$('#Salary').val();
+                    //debugger;
+              $.ajax({       
+                    type:"PUT",
+                    url:"http://localhost/employeeproject/public/api/employee/"+id,
+                    data: {
+                        Name: Name,
+                        Age: Age,
+                        City: City,
+                        Salary: Salary
+                    },
+                 
+                    success: function () {
+                   window.location.href="emplist.html";
+                      
+                    },
+                   
+                       
+                });
+                });
+                //alert (id);
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost/employeeproject/public/api/employee/"+id,
+                    success: function (response) {
+                        //console.log(data);
+                      $('#Name').val(response.data.Name);
+                      $('#Age').val(response.data.Age);
+                      $('#City').val(response.data.City);
+                      $('#Salary').val(response.data.Salary);
+                    },
+                });
+            });
+        
+        </script>  
+    </body>
+</html>
